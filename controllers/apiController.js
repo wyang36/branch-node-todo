@@ -58,8 +58,8 @@ module.exports = (app) => {
         })
     });
 
-    app.delete('/api/todo', (req, res) => {
-        Todos.findByIdAndRemove(req.body.id, (err) => {
+    app.delete('/api/todo/:id', (req, res) => {
+        Todos.findByIdAndRemove({ _id: req.params.id }, (err) => {
             if (err)
                 throw err;
             Todos.find({}, (err, todos) => {
