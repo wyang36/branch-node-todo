@@ -1,72 +1,68 @@
-const Todos = require('../models/todoModel');
+const TodoList = require('../models/todoListModel');
 const bodyParser = require('body-parser');
 
 module.exports = (app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.get('/api/todos', (req, res) => {
-        Todos.find({}, (err, todos) => {
+    app.get('/api/todolists', (req, res) => {
+        TodoList.find({}, (err, todolists) => {
             if (err)
                 throw err;
             else
-                res.send(todos);
+                res.send(todolists);
         })
     });
 
-    app.get('/api/todo/:id', (req, res) => {
-        Todos.findById({ _id: req.params.id }, (err, todo) => {
+    app.get('/api/todolist/:id', (req, res) => {
+        TodoList.findById({ _id: req.params.id }, (err, todolist) => {
             if (err)
                 throw err;
             else
-                res.send(todo);
+                res.send(todolist);
         })
     })
 
-    app.post('/api/todo', (req, res) => {
-        const newTodo = Todos({
+    app.post('/api/todolist', (req, res) => {
+        const newTodoList = TodoList({
             title: req.body.title,
-            dueDate: req.body.dueDate,
-            content: req.body.content,
-            isCompleted: req.body.isCompleted
+            todos: req.body.todos
         });
-        newTodo.save((err) => {
+        newTodoList.save((err) => {
             if (err) throw err;
-            Todos.find({}, (err, todos) => {
+            TodoList.find({}, (err, newTodoLists) => {
                 if (err)
                     throw err;
                 else
-                    res.send(todos);
+                    res.send(newTodoLists);
             })
         })
     });
 
-    app.put('/api/todo', (req, res) => {
-        Todos.findByIdAndUpdate(req.body.id, {
+    app.put('/api/todolist', (req, res) => {
+        TodoList.findByIdAndUpdate(req.body.id, {
             title: req.body.title,
-            dueDate: req.body.dueDate,
-            content: req.body.content,
-            isCompleted: req.body.isCompleted
+            todos: req.body.todos
         }, (err, todo) => {
             if (err) throw err;
-            Todos.find({}, (err, todos) => {
+            TodoList.find({}, (err, newTodoLists) => {
                 if (err)
                     throw err;
                 else
-                    res.send(todos);
+                    res.send(newTodoLists);
             })
         })
     });
 
-    app.delete('/api/todo/:id', (req, res) => {
-        Todos.findByIdAndRemove({ _id: req.params.id }, (err) => {
+    app.delete('/api/todolist/:id', (req, res) => {
+        TodoList.findByIdAndRemove({ _id: req.params.id }, (err) => {
             if (err)
                 throw err;
-            Todos.find({}, (err, todos) => {
+            TodoList.find({}, (err, todoLists) => {
                 if (err)
                     throw err;
                 else
-                    res.send(todos);
+                    res.send(todoLists);
             })
         })
     })
