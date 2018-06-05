@@ -29,14 +29,10 @@ module.exports = (app) => {
             isCompletedList: req.body.isCompletedList,
             todos: req.body.todos
         });
-        newTodoList.save((err) => {
+        newTodoList.save((err, todoList) => {
             if (err) throw err;
-            TodoList.find({}, (err, newTodoLists) => {
-                if (err)
-                    throw err;
-                else
-                    res.send(newTodoLists);
-            })
+
+            res.send(todoList);
         })
     });
 
