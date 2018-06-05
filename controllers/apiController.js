@@ -6,11 +6,20 @@ module.exports = (app) => {
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get('/api/todolists', (req, res) => {
-        TodoList.find({}, (err, todolists) => {
+        TodoList.find({isCompletedList : false}, (err, todolists) => {
             if (err)
                 throw err;
             else
                 res.send(todolists);
+        })
+    });
+
+    app.get('/api/completedlist', (req, res) => {
+        TodoList.find({isCompletedList : true}, (err, todolists) => {
+            if (err)
+                throw err;
+            else
+                res.send(todolists[0]);
         })
     });
 
@@ -26,6 +35,7 @@ module.exports = (app) => {
     app.post('/api/todolist', (req, res) => {
         const newTodoList = TodoList({
             title: req.body.title,
+            isCompletedList: req.body.isCompletedList,
             todos: req.body.todos
         });
         newTodoList.save((err) => {
