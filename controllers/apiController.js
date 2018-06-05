@@ -6,20 +6,11 @@ module.exports = (app) => {
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get('/api/todolists', (req, res) => {
-        TodoList.find({isCompletedList : false}, (err, todolists) => {
+        TodoList.find({}, (err, todolists) => {
             if (err)
                 throw err;
             else
                 res.send(todolists);
-        })
-    });
-
-    app.get('/api/completedlist', (req, res) => {
-        TodoList.find({isCompletedList : true}, (err, todolists) => {
-            if (err)
-                throw err;
-            else
-                res.send(todolists[0]);
         })
     });
 
