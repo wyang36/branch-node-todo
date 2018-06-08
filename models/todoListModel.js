@@ -8,11 +8,10 @@ const todoListSchema = new Schema({
     todos: [{
         title: String,
         content: String,
-        dueDate: Date,
-        isCompleted: Boolean
+        dueDate: Date
     }]
 });
 
-const Todos = mongoose.model('TodoLists', todoListSchema);
+const TodoList = mongoose.model('TodoLists', todoListSchema);
 
-module.exports = Todos;
+module.exports = TodoList;
